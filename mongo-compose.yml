@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  mongodb:
+    container_name: mongodb
+    image: azurhys/mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: $$Admin123
+      MONGO_INITDB_DATABASE: xplorie
+    ports:
+      - 27017:27017
+    volumes:
+    - /var/data/mongo:/data/db
+
+  mongo-express:
+    image: azurhys/mongo-express:latest
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: $$Admin123
+      # ME_CONFIG_BASICAUTH_USERNAME: admin
+      # ME_CONFIG_BASICAUTH_PASSWORD: $$Admin123
+    depends_on:
+      - mongodb
+    ports:
+      - "3300:8081"
+    restart: always
